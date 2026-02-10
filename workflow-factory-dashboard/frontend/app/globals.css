@@ -1,0 +1,71 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Smooth transitions */
+* {
+  @apply transition-colors duration-200;
+}
+
+/* Utility classes */
+.text-primary-600 {
+  @apply text-primary-600;
+}
+
+.bg-success {
+  @apply bg-green-50;
+}
+
+.text-success {
+  @apply text-green-600;
+}
+
+.bg-warning {
+  @apply bg-yellow-50;
+}
+
+.text-warning {
+  @apply text-yellow-600;
+}
+
+.bg-error {
+  @apply bg-red-50;
+}
+
+.text-error {
+  @apply text-red-600;
+}
+
+/* Status badge animations */
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-pulse-slow {
+  animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}

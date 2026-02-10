@@ -1,0 +1,21 @@
+# This file specifies who should review changes to specific parts of the codebase
+
+# Frontend
+frontend/** @Gbenro
+
+# Backend
+backend/** @Gbenro
+
+# Docs
+docs/** @Gbenro
+*.md @Gbenro
+
+# CI/CD
+.github/** @Gbenro
+docker-compose.yml @Gbenro
+
+# Root config files
+*.json @Gbenro
+*.yml @Gbenro
+*.yaml @Gbenro
+Makefile @Gbenro

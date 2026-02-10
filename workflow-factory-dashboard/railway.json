@@ -1,0 +1,86 @@
+{
+  "$schema": "https://railway.app/railway.schema.json",
+  "build": {
+    "builder": "dockerfile"
+  },
+  "deploy": {
+    "numReplicas": 1,
+    "startCommand": "uvicorn app.main:app --host 0.0.0.0 --port $PORT",
+    "restartPolicyMaxRetries": 5
+  },
+  "services": {
+    "frontend": {
+      "build": {
+        "context": "./frontend",
+        "dockerfile": "Dockerfile"
+      },
+      "port": 3000,
+      "healthCheck": {
+        "path": "/",
+        "interval": 30,
+        "timeout": 5,
+        "unhealthyThreshold": 3
+      },
+      "environment": {
+        "NEXT_PUBLIC_API_URL": "$BACKEND_URL",
+        "NEXT_PUBLIC_WS_URL": "$BACKEND_WS_URL",
+        "NODE_ENV": "production"
+      }
+    },
+    "backend": {
+      "build": {
+        "context": "./backend",
+        "dockerfile": "Dockerfile"
+      },
+      "port": 8000,
+      "healthCheck": {
+        "path": "/api/health",
+        "interval": 30,
+        "timeout": 5,
+        "unhealthyThreshold": 3
+      },
+      "environment": {
+        "DATABASE_URL": "$DATABASE_URL",
+        "PYTHONUNBUFFERED": "1",
+        "ENV": "production",
+        "SECRET_KEY": "$SECRET_KEY",
+        "CORS_ORIGINS": "$CORS_ORIGINS"
+      },
+      "restartPolicy": {
+        "maxRetries": 5,
+        "restartDelay": 10
+      }
+    },
+    "postgres": {
+      "image": "postgres:15-alpine",
+      "environment": {
+        "POSTGRES_USER": "$POSTGRES_USER",
+        "POSTGRES_PASSWORD": "$POSTGRES_PASSWORD",
+        "POSTGRES_DB": "$POSTGRES_DB"
+      },
+      "volumes": {
+        "postgres_data": "/var/lib/postgresql/data"
+      },
+      "healthCheck": {
+        "command": ["pg_isready", "-U", "$POSTGRES_USER"],
+        "interval": 10,
+        "timeout": 5,
+        "startPeriod": 10
+      },
+      "restartPolicy": "always"
+    }
+  },
+  "volumes": {
+    "postgres_data": {}
+  },
+  "variables": {
+    "backend": {
+      "RAILWAY_CONTEXT": "backend",
+      "OTEL_SDK_DISABLED": "true"
+    },
+    "frontend": {
+      "RAILWAY_CONTEXT": "frontend",
+      "OTEL_SDK_DISABLED": "true"
+    }
+  }
+}
