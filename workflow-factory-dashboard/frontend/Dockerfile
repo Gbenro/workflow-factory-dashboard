@@ -12,9 +12,9 @@ RUN apk add --no-cache python3 make g++
 COPY package*.json ./
 
 # Install dependencies
-RUN npm ci --only=production && \
+RUN npm install --omit=dev && \
     cp -R node_modules /prod_node_modules && \
-    npm ci
+    npm install
 
 # Copy source
 COPY . .
