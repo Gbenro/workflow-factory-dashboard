@@ -27,8 +27,8 @@
 }
 
 /* Utility classes */
-.text-primary-600 {
-  @apply text-primary-600;
+.text-primary {
+  @apply text-blue-600;
 }
 
 .bg-success {
